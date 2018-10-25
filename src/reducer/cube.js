@@ -1,5 +1,5 @@
 const initialState = {
-	color: 0xff3323
+	color: 0xff993f
 }
 const cube = (state=initialState, action)=>{
 	switch(action.type){

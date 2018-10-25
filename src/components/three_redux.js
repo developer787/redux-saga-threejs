@@ -27,8 +27,8 @@ class Scene extends Component {
         const renderer = new THREE.WebGLRenderer({ antialias: true })
 
         camera.position.z = 4
-        const Cube = cube()
-        scene.add(Cube)
+        this.cube = cube()
+        scene.add(this.cube)
         renderer.setClearColor('#000000')
         renderer.setPixelRatio( window.devicePixelRatio  );
         renderer.setSize(width, height)
@@ -36,7 +36,6 @@ class Scene extends Component {
         this.scene = scene
         this.camera = camera
         this.renderer = renderer
-        this.cube = Cube
 
         this.mount.appendChild(this.renderer.domElement)
         this.start()
@@ -61,6 +60,7 @@ class Scene extends Component {
         this.cube.rotation.x += 0.01
         this.cube.rotation.y += 0.01
         this.cube.material.color.setHex(this.props.color)
+
 
         this.renderScene()
         this.frameId = window.requestAnimationFrame(this.animate)
