@@ -4,7 +4,9 @@ import * as THREE from 'three'
 import cube from './cube'
 
 const mapState = state =>({
-    color: state.cube.color
+    color: state.cube.color,
+    sideA: state.cube.faceSideA,
+    sideB: state.cube.faceSideB
 })
 class Scene extends Component {
     constructor(props) {
@@ -27,7 +29,7 @@ class Scene extends Component {
         const renderer = new THREE.WebGLRenderer({ antialias: true })
 
         camera.position.z = 4
-        this.cube = cube()
+        this.cube = cube(this.props)
         scene.add(this.cube)
         renderer.setClearColor('#000000')
         renderer.setPixelRatio( window.devicePixelRatio  );
@@ -59,7 +61,7 @@ class Scene extends Component {
     animate() {
         this.cube.rotation.x += 0.01
         this.cube.rotation.y += 0.01
-        this.cube.material.color.setHex(this.props.color)
+//        this.cube.geometry.faces.map(e=>e.color.setHex(Math.random() * 0xffffff))
 
 
         this.renderScene()
