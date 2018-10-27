@@ -13,9 +13,17 @@ function* watchIncrement(){
 }
 
 function* changeColor(color){
-    const randomHex = ()=>Math.random()*0xFFFFFF<<0
     try {
-        yield put({type: "CHANGE_COLOR", payload: randomHex()});
+    const randomHex = ()=>Math.random()*0xFFFFFF<<0
+    const colors = [
+        randomHex(),
+        randomHex(),
+        randomHex(),
+        randomHex(),
+        randomHex(),
+        randomHex(),
+    ]
+        yield put({type: "CHANGE_COLOR", payload: colors});
     } catch (e) {
         yield put({type: "CHANGE_COLOR_FAILED", payload: e.message});
     }
