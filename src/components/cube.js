@@ -19,6 +19,7 @@ const Cube = (props)=>{
         const material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors  }  );
 
         const cube = new THREE.Mesh(geometry, material)
+        cube.position.y = 4
         return cube
 
 }
