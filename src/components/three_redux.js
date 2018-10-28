@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import * as THREE from 'three'
 import cube from './cube'
 import plane from './plane'
+import lights from './lights'
 
 const mapState = state =>({
     sideA: state.cube.faceSideA,
@@ -32,12 +33,17 @@ class Scene extends Component {
         )
         const renderer = new THREE.WebGLRenderer({ antialias: true })
 
-        camera.position.z = 8
-        camera.position.y = 4
+        renderer.shadowMap.enabled = true;
+        camera.position.z = 48
+        camera.position.y = 16
         this.cube = cube.Cube(this.props)
         this.plane = plane.render(this.props)
+        this.ambient = lights.ambient(this.props)
+        this.direction = lights.direction(this.props)
         scene.add(this.cube)
         scene.add(this.plane)
+        scene.add(this.ambient)
+        scene.add(this.direction)
         renderer.setClearColor('#000000')
         renderer.setPixelRatio( window.devicePixelRatio  );
         renderer.setSize(width, height)

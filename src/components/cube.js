@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 
 const Cube = (props)=>{
-        const geometry = new THREE.CubeGeometry(2, 3, 2)
+        const geometry = new THREE.CubeGeometry(20, 30, 20)
         geometry.faces[0].color.setHex(props.sideA)
         geometry.faces[1].color.setHex(props.sideA)
         geometry.faces[2].color.setHex(props.sideB)
@@ -16,10 +16,12 @@ const Cube = (props)=>{
         geometry.faces[11].color.setHex(props.sideF)
         //geometry.faces.map(e=>e.color.setHex(Math.random() * 0xffffff))
 
-        const material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors  }  );
+        const material = new THREE.MeshPhongMaterial( { vertexColors: THREE.FaceColors  }  );
 
         const cube = new THREE.Mesh(geometry, material)
-        cube.position.y = 4
+        cube.position.y = 25
+//        cube.castShadow = true
+        //cube.receiveShadow = true
         return cube
 
 }
