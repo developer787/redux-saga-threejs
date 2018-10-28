@@ -25,6 +25,8 @@ class Scene extends Component {
     componentDidMount() {
         const width = this.mount.clientWidth
         const height = this.mount.clientHeight
+        this.width = width
+        this.height = height
         const scene = new THREE.Scene()
         const camera = new THREE.PerspectiveCamera(
             75,
@@ -79,26 +81,20 @@ class Scene extends Component {
         cancelAnimationFrame(this.frameId)
     }
     touchStart( event  ) {
-
         event.preventDefault();
-
         let x = event.clientX = event.touches[0].pageX;
         let y = event.clientY = event.touches[0].pageY;
-        this.mouse.x = x
-        this.mouse.y = y
-
-
+        this.mouse.x = (x / this.width) * 2 - 1
+        this.mouse.y = - (y / this.height) * 2 + 1
+            alert("mouse: x "+this.mouse.x+" mouse: y "+this.mouse.y)
     }
 
     animate() {
-
         cube.animate(this.cube, this.props)
-        this.raycaster.setFromCamera( this.mouse, this.camera  );
-        const intersects = this.raycaster.intersectObjects( this.scene.children  );
-        for ( var i = 0; i < intersects.length; i++  ) {
-            intersects[ i  ].object.material.color.set( 0xff0000  );
-
-
+        this.raycaster.setFromCamera(this.mouse,this.camera);
+        const intersects = this.raycaster.intersectObjects(this.scene.children);
+        for (let i = 0; i < intersects.length; i++) {
+          intersects[i].object.material.color.set( 0xff0000);
         }
         this.renderScene()
         this.frameId = window.requestAnimationFrame(this.animate)
