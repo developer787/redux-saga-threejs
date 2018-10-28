@@ -36,8 +36,13 @@ class Scene extends Component {
 
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2()
         camera.position.z = 120
         camera.position.y = 50
+        this.intersected = null
+        this.raycaster = raycaster
+        this.mouse = mouse
         this.cube = cube.Cube(this.props)
         this.plane = plane.render(this.props)
         this.ambient = lights.ambient(this.props)
@@ -75,18 +80,26 @@ class Scene extends Component {
     }
     touchStart( event  ) {
 
-            event.preventDefault();
+        event.preventDefault();
 
-            let x = event.clientX = event.touches[0].pageX;
-            let y = event.clientY = event.touches[0].pageY;
+        let x = event.clientX = event.touches[0].pageX;
+        let y = event.clientY = event.touches[0].pageY;
+        this.mouse.x = x
+        this.mouse.y = y
 
-            alert("touched "+ x + " " + y)
 
     }
 
     animate() {
 
         cube.animate(this.cube, this.props)
+        this.raycaster.setFromCamera( this.mouse, this.camera  );
+        const intersects = this.raycaster.intersectObjects( this.scene.children  );
+        for ( var i = 0; i < intersects.length; i++  ) {
+            intersects[ i  ].object.material.color.set( 0xff0000  );
+
+
+        }
         this.renderScene()
         this.frameId = window.requestAnimationFrame(this.animate)
     }
