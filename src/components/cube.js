@@ -19,9 +19,9 @@ const Cube = (props)=>{
         const material = new THREE.MeshPhongMaterial( { vertexColors: THREE.FaceColors  }  );
 
         const cube = new THREE.Mesh(geometry, material)
-        cube.position.y = 25
-//        cube.castShadow = true
-        //cube.receiveShadow = true
+        cube.position.y = 30
+        cube.castShadow = true
+        cube.receiveShadow = false
         return cube
 
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Counter from './components/Counter'
+//import Counter from './components/Counter'
 import ChangeColor from './components/ChangeColor'
 import Three from './components/three_redux'
 
@@ -9,7 +9,6 @@ class App extends Component {
     return (
       <AppContainer>
 	    <Three />
-	    <Counter />
 	    <ChangeColor />
       </AppContainer>
     );

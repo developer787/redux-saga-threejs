@@ -8,22 +8,30 @@ const ambient = (props)=>{
 }
 const direction = ()=>{
 
-            const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-            dirLight.position.set(0, 20, 0);
+            const dirLight = new THREE.DirectionalLight(0xffffff, 1 );
+            dirLight.position.set(0, 100, 0);
     dirLight.shadow.camera.near = 0.5;
-    dirLight.shadow.camera.far = 5000;
-    dirLight.shadow.camera.left = -500;
-    dirLight.shadow.camera.bottom = -500;
-    dirLight.shadow.camera.right = 500;
-    dirLight.shadow.camera.top = 500;
+    dirLight.shadow.camera.far = 500;
+    dirLight.shadow.camera.left = -30;
+    dirLight.shadow.camera.bottom = -30;
+    dirLight.shadow.camera.right = 30;
+    dirLight.shadow.camera.top = 30;
 
     dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
         return dirLight
 }
 const animate = (plane,props)=>{
 }
+const helper = light=>{
+    const help = new THREE.CameraHelper( light.shadow.camera  );
+
+    return help
+}
 const ship = {
     ambient,
+    helper,
     direction,
     animate
 }

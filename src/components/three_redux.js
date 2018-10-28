@@ -34,16 +34,18 @@ class Scene extends Component {
         const renderer = new THREE.WebGLRenderer({ antialias: true })
 
         renderer.shadowMap.enabled = true;
-        camera.position.z = 48
-        camera.position.y = 16
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        camera.position.z = 120
+        camera.position.y = 50
         this.cube = cube.Cube(this.props)
         this.plane = plane.render(this.props)
         this.ambient = lights.ambient(this.props)
         this.direction = lights.direction(this.props)
+        this.lightHelp = lights.helper(this.direction)
         scene.add(this.cube)
         scene.add(this.plane)
         scene.add(this.ambient)
-        scene.add(this.direction)
+        scene.add(this.direction, this.lightHelp)
         renderer.setClearColor('#000000')
         renderer.setPixelRatio( window.devicePixelRatio  );
         renderer.setSize(width, height)
