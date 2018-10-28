@@ -19,6 +19,7 @@ class Scene extends Component {
         this.start = this.start.bind(this)
         this.stop = this.stop.bind(this)
         this.animate = this.animate.bind(this)
+        this.touchStart = this.touchStart.bind(this)
     }
 
     componentDidMount() {
@@ -72,6 +73,16 @@ class Scene extends Component {
     stop() {
         cancelAnimationFrame(this.frameId)
     }
+    touchStart( event  ) {
+
+            event.preventDefault();
+
+            let x = event.clientX = event.touches[0].pageX;
+            let y = event.clientY = event.touches[0].pageY;
+
+            alert("touched "+ x + " " + y)
+
+    }
 
     animate() {
 
@@ -87,6 +98,7 @@ class Scene extends Component {
     render() {
         return (
             <div
+            onTouchStart={this.touchStart}
             style={{ width: '100%', height: '500px' }}
             ref={(mount) => { this.mount = mount }}
             />
