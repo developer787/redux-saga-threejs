@@ -82,20 +82,25 @@ class Scene extends Component {
     }
     touchStart( event  ) {
         event.preventDefault();
-        let x = event.clientX = event.touches[0].pageX;
-        let y = event.clientY = event.touches[0].pageY;
-        this.mouse.x = (x / this.width) * 2 - 1
-        this.mouse.y = - (y / this.height) * 2 + 1
-            alert("mouse: x "+this.mouse.x+" mouse: y "+this.mouse.y)
+        let x = event.clientX
+        let y = event.clientY
+        //this.mouse.x = (x / this.width) * 2 - 1
+        //this.mouse.y = - (y / this.height) * 2 + 1
+        this.mouse.x = +(event.targetTouches[0].pageX / this.width) * 2 +-1;
+
+        this.mouse.y = -(event.targetTouches[0].pageY / this.height) * 2 + 1;
+            //alert("mouse: x "+this.mouse.x+" mouse: y "+this.mouse.y)
+        this.raycaster.setFromCamera(this.mouse,this.camera);
+        const intersects = this.raycaster.intersectObjects(this.scene.children);
+        let intersection = ( intersects.length  ) > 0 ? intersects[ 0  ] : null;
+        if(intersection.object.type==='Mesh'){
+            intersection.object.material.color.setHex(0xff0000)
+
+        }
     }
 
     animate() {
         cube.animate(this.cube, this.props)
-        this.raycaster.setFromCamera(this.mouse,this.camera);
-        const intersects = this.raycaster.intersectObjects(this.scene.children);
-        for (let i = 0; i < intersects.length; i++) {
-          intersects[i].object.material.color.set( 0xff0000);
-        }
         this.renderScene()
         this.frameId = window.requestAnimationFrame(this.animate)
     }
