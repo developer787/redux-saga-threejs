@@ -82,18 +82,17 @@ class Scene extends Component {
     }
     touchStart( event  ) {
         event.preventDefault();
-        let x = event.clientX
-        let y = event.clientY
-        //this.mouse.x = (x / this.width) * 2 - 1
-        //this.mouse.y = - (y / this.height) * 2 + 1
-        this.mouse.x = +(event.targetTouches[0].pageX / this.width) * 2 +-1;
+        const x = +(event.targetTouches[0].pageX / this.width) * 2 +-1;
+        const y = -(event.targetTouches[0].pageY / this.height) * 2 + 1;
+        this.mouse.x = x
 
-        this.mouse.y = -(event.targetTouches[0].pageY / this.height) * 2 + 1;
-            //alert("mouse: x "+this.mouse.x+" mouse: y "+this.mouse.y)
+        this.mouse.y = y
         this.raycaster.setFromCamera(this.mouse,this.camera);
         const intersects = this.raycaster.intersectObjects(this.scene.children);
-        let intersection = ( intersects.length  ) > 0 ? intersects[ 0  ] : null;
-        if(intersection.object.type==='Mesh'){
+        const intersection = (intersects.length) > 0
+            ? intersects[0]
+            : null;
+        if(intersection != null  && intersection.object.type==='Mesh'){
             intersection.object.material.color.setHex(0xff0000)
 
         }
