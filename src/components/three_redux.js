@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import OrbitControls from 'orbit-controls-es6';
+
 import { connect } from 'react-redux'
 import * as THREE from 'three'
 import cube from './cube'
@@ -40,23 +42,29 @@ class Scene extends Component {
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2()
-        camera.position.z = 120
-        camera.position.y = 50
+        camera.position.z = 80
+        camera.position.y = 80
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = 1
+        controls.minPolarAngle = 1
         this.intersected = null
         this.raycaster = raycaster
         this.mouse = mouse
         this.cube = cube.Cube(this.props)
         this.plane = plane.render(this.props)
+        this.plane.name = "ground"
         this.ambient = lights.ambient(this.props)
         this.direction = lights.direction(this.props)
-        this.lightHelp = lights.helper(this.direction)
+        this.lightHelp = lights.helper(this.direction, 1)
+        this.controls = controls
         scene.add(this.cube)
         scene.add(this.plane)
         scene.add(this.ambient)
-        scene.add(this.direction, this.lightHelp)
+        scene.add(this.direction)
         renderer.setClearColor('#000000')
         renderer.setPixelRatio( window.devicePixelRatio  );
         renderer.setSize(width, height)
+        //renderer.toneMapping = THREE.ReinhardToneMapping;
 
         this.scene = scene
         this.camera = camera
@@ -92,7 +100,9 @@ class Scene extends Component {
         const intersection = (intersects.length) > 0
             ? intersects[0]
             : null;
-        if(intersection != null  && intersection.object.type==='Mesh'){
+        if( intersection != null              &&
+            intersection.object.type==='Mesh' &&
+            intersection.object.name != "ground"){
             intersection.object.material.color.setHex(0xff0000)
 
         }
@@ -101,6 +111,7 @@ class Scene extends Component {
     animate() {
         cube.animate(this.cube, this.props)
         this.renderScene()
+        this.controls.update()
         this.frameId = window.requestAnimationFrame(this.animate)
     }
 

@@ -2,7 +2,7 @@ import * as THREE from 'three'
 
 const ambient = (props)=>{
 
-    const ambientLight = new THREE.AmbientLight(0x333333);
+    const ambientLight = new THREE.AmbientLight(0xffffff);
         return ambientLight
 
 }
