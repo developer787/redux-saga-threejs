@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import OrbitControls from 'orbit-controls-es6';
 
 import { connect } from 'react-redux'
 import * as THREE from 'three'
 import cube from './cube'
 import plane from './plane'
 import lights from './lights'
+import controls from './controls'
 
 const mapState = state =>({
     sideA: state.cube.faceSideA,
@@ -42,11 +42,7 @@ class Scene extends Component {
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2()
-        camera.position.z = 80
-        camera.position.y = 80
-        const controls = new OrbitControls(camera, renderer.domElement);
-        controls.maxPolarAngle = 1
-        controls.minPolarAngle = 1
+        camera.position.set(0, 240, 80)
         this.intersected = null
         this.raycaster = raycaster
         this.mouse = mouse
@@ -56,7 +52,7 @@ class Scene extends Component {
         this.ambient = lights.ambient(this.props)
         this.direction = lights.direction(this.props)
         this.lightHelp = lights.helper(this.direction, 1)
-        this.controls = controls
+        this.controls = controls(camera, renderer)
         scene.add(this.cube)
         scene.add(this.plane)
         scene.add(this.ambient)
@@ -100,9 +96,9 @@ class Scene extends Component {
         const intersection = (intersects.length) > 0
             ? intersects[0]
             : null;
-        if( intersection != null              &&
+        if( intersection !== null              &&
             intersection.object.type==='Mesh' &&
-            intersection.object.name != "ground"){
+            intersection.object.name !== "ground"){
             intersection.object.material.color.setHex(0xff0000)
 
         }
