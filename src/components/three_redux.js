@@ -6,6 +6,9 @@ import cube from './cube'
 import plane from './plane'
 import lights from './lights'
 import controls from './controls'
+import camera from './camera'
+import scene from './scene'
+import renderer from './renderer'
 
 const mapState = state =>({
     sideA: state.cube.faceSideA,
@@ -29,20 +32,13 @@ class Scene extends Component {
         const height = this.mount.clientHeight
         this.width = width
         this.height = height
-        const scene = new THREE.Scene()
-        const camera = new THREE.PerspectiveCamera(
-            75,
-            width / height,
-            0.1,
-            1000
-        )
-        const renderer = new THREE.WebGLRenderer({ antialias: true })
+        this.camera = camera(this.width, this.height)
+        this.renderer = renderer()
 
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         const raycaster = new THREE.Raycaster();
         const mouse = new THREE.Vector2()
-        camera.position.set(0, 240, 80)
         this.intersected = null
         this.raycaster = raycaster
         this.mouse = mouse
@@ -52,19 +48,13 @@ class Scene extends Component {
         this.ambient = lights.ambient(this.props)
         this.direction = lights.direction(this.props)
         this.lightHelp = lights.helper(this.direction, 1)
-        this.controls = controls(camera, renderer)
-        scene.add(this.cube)
-        scene.add(this.plane)
-        scene.add(this.ambient)
-        scene.add(this.direction)
-        renderer.setClearColor('#000000')
-        renderer.setPixelRatio( window.devicePixelRatio  );
-        renderer.setSize(width, height)
+        this.renderer.setClearColor('#000000')
+        this.renderer.setPixelRatio( window.devicePixelRatio  );
+        this.renderer.setSize(width, height)
         //renderer.toneMapping = THREE.ReinhardToneMapping;
 
-        this.scene = scene
-        this.camera = camera
-        this.renderer = renderer
+        this.scene = scene(this)
+        this.controls = controls(this.camera, this.renderer)
 
         this.mount.appendChild(this.renderer.domElement)
         this.start()
